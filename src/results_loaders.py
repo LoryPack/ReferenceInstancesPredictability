@@ -324,11 +324,11 @@ class ResultsLoader(ABC):
             # texts here is a list
             texts = [text.replace("\n", " ") for text in texts]
             while True:
-                try:
+                # try:
                     outs = openai.Embedding.create(input=texts, model=model)
                     return [np.array(out['embedding']) for out in outs['data']]
-                except:
-                    sleep(sleep_time)
+                # except:
+                #     sleep(sleep_time)
 
         # prompts_df["openai_embeddings_large" + ("_sys_prompt" if add_system_prompt else "")] = np.nan
         embeddings_list = []
