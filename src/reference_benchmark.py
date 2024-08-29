@@ -13,7 +13,7 @@ from sklearn.metrics import roc_auc_score
 
 from src.irt import load_irt_parameters, create_irt_dataset, train_irt_model
 from src.classification_utils import brierDecomp
-from src.results_loaders import load_evals
+from src.results_loaders import load_reasoning
 
 
 class SampleSelector:
@@ -858,7 +858,7 @@ if __name__ == "__main__":
     test_llms = llms[4:]
 
     for split, arithmetic_only in [(False, False)]:
-        train_df, test_df = load_evals(llms, ["openai_embeddings"], ood_split=split, arithmetic_only=arithmetic_only,
+        train_df, test_df = load_reasoning(llms, ["openai_embeddings"], ood_split=split, arithmetic_only=arithmetic_only,
                                        base_path="feature_predictiveness/results", subsampled_n_train=300)
     # print(train_df.shape, test_df.shape)
 

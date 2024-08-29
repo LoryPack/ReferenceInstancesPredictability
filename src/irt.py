@@ -6,7 +6,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 
-# taken from https://github.com/felipemaiapolo/tinyBenchmarks
+# code from https://github.com/felipemaiapolo/tinyBenchmarks
 
 
 def sigmoid(z):

@@ -3,7 +3,8 @@ import nltk
 import numpy as np
 
 
-# Adapted from the lie detection code: https://github.com/lorypack/llm-liedetector
+# Adapted from the lie detection code: https://github.com/lorypack/llm-liedetector (released under BSD-3-Clause license)
+# Copyright (c) 2023, Lorenzo Pacchiardi
 class Embedder:
     def __init__(
             self,

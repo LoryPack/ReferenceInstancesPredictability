@@ -1,5 +1,3 @@
-# list of models @ https://platform.openai.com/docs/models/continuous-model-upgrades
-# cost @ https://openai.com/pricing and https://platform.openai.com/docs/deprecations/ for older models
 import os
 
 import pandas as pd
