@@ -1,0 +1,12 @@
+jsonlines==4.0.0
+numpy==1.25.2
+scipy==1.11.3
+pandas==1.5.3
+gensim==4.3.2
+nltk==3.8.1
+openai==0.28.1
+scikit-learn==1.2.0
+tqdm==4.66.1
+xgboost==2.0.3
+seaborn==0.13.2
+matplotlib==3.9.2

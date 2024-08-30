@@ -3,7 +3,6 @@ import os
 import re
 from abc import ABC, abstractmethod
 from pathlib import Path
-from time import sleep
 from typing import List
 
 import numpy as np
