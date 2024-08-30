@@ -325,10 +325,10 @@ class ResultsLoader(ABC):
             texts = [text.replace("\n", " ") for text in texts]
             while True:
                 # try:
-                    outs = openai.Embedding.create(input=texts, model=model)
-                    return [np.array(out['embedding']) for out in outs['data']]
-                # except:
-                #     sleep(sleep_time)
+                outs = openai.Embedding.create(input=texts, model=model)
+                return [np.array(out['embedding']) for out in outs['data']]
+            # except:
+            #     sleep(sleep_time)
 
         # prompts_df["openai_embeddings_large" + ("_sys_prompt" if add_system_prompt else "")] = np.nan
         embeddings_list = []
@@ -896,7 +896,7 @@ def load_reasoning(llms, features, base_path="../results/kindsofreasoning/", ood
         'space_nli': ["spatial_reasoning"],
     }
 
-    # add the aritmetic results:
+    # add the arithmetic results:
     for n_digits in range(1, 6):
         for operation in ["addition", "subtraction", "multiplication", "division"]:
             eval_name = f"arithmetic_{n_digits}_digit_{operation}"
@@ -928,7 +928,7 @@ def load_reasoning(llms, features, base_path="../results/kindsofreasoning/", ood
         # load with the embeddings:
         if openai_embeddings:
             instance = EvalsResultsLoader(task=eval_name, llms=llms,
-                                          processed_filename=f"{base_path}/{eval_name}'_with_embeddings.gz",
+                                          processed_filename=f"{base_path}/{eval_name}_with_embeddings.gz",
                                           load_processed_kwargs={"compression": True})
         else:
             instance = EvalsResultsLoader(task=eval_name, llms=llms, base_path_raw=base_path)
@@ -972,7 +972,7 @@ def load_reasoning(llms, features, base_path="../results/kindsofreasoning/", ood
     return train_df, validation_df, test_df
 
 
-def load_helm_lite(llms, features, base_path="results/", ood_split=False, validation_size=0.2,
+def load_helm_lite(llms, features, base_path="../results/helm_lite_v1.0.0", ood_split=False, validation_size=0.2,
                    subsampled_n_train=None, subsampled_n_test=None, random_state=42):
     """
 
@@ -1006,9 +1006,14 @@ def load_helm_lite(llms, features, base_path="results/", ood_split=False, valida
         for subscenario in possible_scenarios[scenario]:
             eval = f"{scenario}_{subscenario}"
             # load with the embeddings:
-            instance = HelmResultsLoader(scenario=scenario, subscenario=subscenario, llms=llms,
-                                         processed_filename=f"{base_path}/{eval}{'_with_embeddings.gz' if openai_embeddings else '.json'}",
-                                         load_processed_kwargs={"compression": True} if openai_embeddings else {})
+            if openai_embeddings:
+                print(f"{base_path}/{eval}'_with_embeddings.gz")
+                instance = HelmResultsLoader(scenario=scenario, subscenario=subscenario, llms=llms,
+                                             processed_filename=f"{base_path}/{eval}_with_embeddings.gz",
+                                             load_processed_kwargs={"compression": True} if openai_embeddings else {})
+            else:
+                instance = HelmResultsLoader(scenario=scenario, subscenario=subscenario, llms=llms,
+                                             base_path_raw=base_path)
             instance = instance.discard_if_one_na_in_success_per_row(
                 inplace=True)  # this discards all rows where the considered llm has not been tested
 
@@ -1063,8 +1068,18 @@ def load_helm_lite(llms, features, base_path="results/", ood_split=False, valida
 
 
 if __name__ == "__main__":
-    # test loading the kindsofreasoning dataset:
+    # test loading the kindsofreasoning dataset with the embeddings:
+    train_df, validation_df, test_df = load_reasoning(llms=sort_models_order, features=["openai_embeddings"],
+                                                      ood_split=False,
+                                                      base_path="../results/kindsofreasoning_embeddings/")
+
+    # # test loading the kindsofreasoning dataset:
     train_df, validation_df, test_df = load_reasoning(llms=sort_models_order, features=[""], ood_split=False)
+
+    # test loading the helm_lite dataset with the embeddings:
+    train_df, validation_df, test_df = load_helm_lite(
+        llms=['tiiuae/falcon-40b', 'gpt-4-0613', 'AlephAlpha/luminous-extended', 'cohere/command-light', ],
+        features=["openai_embeddings"], ood_split=False, base_path="../results/helm_lite_v1.0.0_embeddings/")
 
     # test loading the helm_lite dataset:
     train_df, validation_df, test_df = load_helm_lite(
