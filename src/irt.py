@@ -6,7 +6,8 @@ import numpy as np
 from scipy.optimize import minimize
 
 
-# code from https://github.com/felipemaiapolo/tinyBenchmarks
+# code from https://github.com/felipemaiapolo/tinyBenchmarks, released under the MIT License
+# Copyright (c) 2024 Felipe Maia Polo
 
 
 def sigmoid(z):
