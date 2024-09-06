@@ -19,8 +19,8 @@ In order to run the IRT part, the following must be done:
 ### Run the experiments
 Steps: 
 1. get the raw data
-  - KindsOfReasoning: download this file from [this repo](https://github.com/Kinds-of-Intelligence-CFI/KindsOfReasoning/tree/main/full_processing_steps) and decompress it in a folder `results/kindsofreasoning` in the root of this repository 
-    - HELM-Lite: download the HELM data by running the `download_lite.ipynb` notebook in `experiments/download_helm`. This downloads all the necessary files in `results/helm_lite_v1.0.0`. Notice that this takes long (3.6GB).
+   - KindsOfReasoning: download this file from [this repo](https://github.com/Kinds-of-Intelligence-CFI/KindsOfReasoning/tree/main/full_processing_steps) and decompress it in a folder `results/kindsofreasoning` in the root of this repository 
+   - HELM-Lite: download the HELM data by running the `download_lite.ipynb` notebook in `experiments/download_helm`. This downloads all the necessary files in `results/helm_lite_v1.0.0`. Notice that this takes long (3.6GB).
 2. compute the embeddings running the two scripts `experiments/0_run_openai_embeddings_all_kindsofreasoning.py` and `experiments/0_run_openai_embeddings_all_helm.py`, which will create two new folders in `results` where the computed embeddings will be stored. These require an OpenAI API key to be set in `.env`. Computing the embeddings is a bit slow but cheap; unfortunately the resulting files are large so they cannot be easily stored on GitHub.
 3. Run the experiments by running the various notebooks in the `experiments` folder. They will create two subfolders (`results` and `fig`) where the result files and figures will be stored.
 
